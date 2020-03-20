@@ -1,6 +1,18 @@
 <template>
   <div id="my-grid">
-    <grid :style="{ height: '280px' }" :data-items="items" :columns="columns">
+    <div id="selectedItem">
+      Selected Item: 
+      ID: {{ selectedItem && selectedItem.ProductID }}, 
+      Name: {{ selectedItem && selectedItem.ProductName }}, 
+      Unit Price: {{ selectedItem && selectedItem.UnitPrice }}
+    </div>
+    <grid
+      :style="{ height: '500px' }"
+      :data-items="items"
+      :columns="columns"
+      :selected-field="selectedField"
+      @rowclick="onRowClick"
+    >
     </grid>
   </div>
 </template>
@@ -15,12 +27,14 @@ export default {
   },
   data: function() {
     return {
-      items: [],
       columns: [
         { field: "ProductID" },
         { field: "ProductName", title: "Product Name" },
         { field: "UnitPrice", title: "Unit Price" }
-      ]
+      ],
+      items: [],
+      selectedField: "selected",
+      selectedID: 1
     };
   },
   methods: {
@@ -47,10 +61,18 @@ export default {
             productNames[Math.floor(Math.random() * productNames.length)],
           UnitPrice: unitPrices[Math.floor(Math.random() * unitPrices.length)]
         }));
+    },
+    onRowClick(event) {
+      this.selectedID = event.dataItem.ProductID;
     }
   },
   mounted() {
     this.items = this.createRandomData(50);
+  },
+  computed: {
+    selectedItem() {
+      return this.items.find(item => item.ProductID == this.selectedID);
+    }
   }
 };
 </script>

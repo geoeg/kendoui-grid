@@ -1,6 +1,5 @@
 <template>
   <div class="my-drop-down-list">
-    <h1>{{ msg }}</h1>
     <drop-down-list
       :data-items="sports"
       :default-value="'Baseball'"
@@ -18,8 +17,7 @@ export default {
   },
   data() {
     return {
-      sports: ["Baseball", "Cricket", "Field Hockey", "Football", "Volleyball"],
-      msg: "Hello Kendo Native DropDownList for Vue.js"
+      sports: ["Baseball", "Cricket", "Field Hockey", "Football", "Volleyball"]
     };
   }
 };
