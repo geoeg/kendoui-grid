@@ -1,17 +1,21 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <my-drop-down-list />
+    <hr>
+    <my-grid></my-grid>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import '@progress/kendo-theme-default/dist/all.css'
+import MyDropDownList from './components/MyDropDownList.vue';
+import MyGrid from './components/MyGrid.vue';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    MyDropDownList,
+    MyGrid
   }
 }
 </script>
