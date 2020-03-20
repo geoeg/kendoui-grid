@@ -5,6 +5,7 @@
       {{ selectedItem && selectedItem.ProductName }}, Unit Price:
       {{ selectedItem && selectedItem.UnitPrice }}
     </div>
+    <hr>
     <grid
       :style="{ height: 'auto' }"
       :data-items="pageItems"
@@ -12,9 +13,9 @@
       :selected-field="selectedField"
       @rowclick="onRowClick"
       :pageable="true"
-      :skip="skip"
-      :take="take"
-      :total="total"
+      :skip="skippedItems"
+      :take="singlePageItems"
+      :total="totalItems"
       @pagechange="pageChangeHandler"
     ></grid>
   </div>
@@ -38,8 +39,8 @@ export default {
       items: [],
       selectedField: "selected",
       selectedID: 1,
-      skip: 0,
-      take: 10
+      skippedItems: 0,
+      singlePageItems: 10
     };
   },
   methods: {
@@ -70,8 +71,8 @@ export default {
       this.selectedID = event.dataItem.ProductID;
     },
     pageChangeHandler: function(event) {
-      this.skip = event.page.skip;
-      this.take = event.page.take;
+      this.skippedItems = event.page.skip;
+      this.singlePageItems = event.page.take;
     }
   },
   mounted() {
@@ -81,23 +82,19 @@ export default {
     selectedItem() {
       return this.items.find(item => item.ProductID == this.selectedID);
     },
-    total() {
+    totalItems() {
       return this.items ? this.items.length : 0;
     },
     pageItems: {
       get: function() {
-        return this.items.slice(this.skip, this.take + this.skip);
+        return this.items.slice(
+          this.skippedItems,
+          this.singlePageItems + this.skippedItems
+        );
       }
     }
   }
 };
 </script>
 
-<style scoped>
-.restore-columns {
-  margin: 0 0 20px;
-  padding: 20px;
-  background-color: rgba(0, 0, 0, 0.03);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-}
-</style>
+<style scoped></style>
