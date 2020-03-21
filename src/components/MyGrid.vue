@@ -1,11 +1,15 @@
 <template>
   <div id="my-grid">
-    <div id="selected-ttem">
-      Selected Item: ID: {{ selectedItem && selectedItem.ProductID }}, Name:
-      {{ selectedItem && selectedItem.ProductName }}, Unit Price:
-      {{ selectedItem && selectedItem.UnitPrice }}
-    </div>
-    <hr>
+    <span>
+      <button @click="restoreColumns" class="k-button k-primary">
+        Restore hidden columns
+      </button>
+    </span>
+    <span>
+      Selected Item: ID: {{ selectedItem && selectedItem.ProductID }}, 
+      Name: {{ selectedItem && selectedItem.ProductName }}, 
+      Unit Price: {{ selectedItem && selectedItem.UnitPrice }}
+    </span>
     <grid
       :style="{ height: 'auto' }"
       :data-items="pageItems"
@@ -17,11 +21,25 @@
       :take="singlePageItems"
       :total="totalItems"
       @pagechange="pageChangeHandler"
-    ></grid>
+    >
+      <template v-slot:tableHeader="{ props }">
+        <span>
+          <span>{{ props.title }}</span>
+          <button
+            @click="hideColumn(props.field)"
+            class="k-button k-primary"
+            style="float: right;"
+          >
+            Hide
+          </button>
+        </span>
+      </template>
+    </grid>
   </div>
 </template>
 
 <script>
+import Vue from "vue";
 import { Grid } from "@progress/kendo-vue-grid";
 
 export default {
@@ -32,9 +50,13 @@ export default {
   data: function() {
     return {
       columns: [
-        { field: "ProductID", title: "Product ID" },
-        { field: "ProductName", title: "Product Name" },
-        { field: "UnitPrice", title: "Unit Price" }
+        { field: "ProductID", title: "Product ID", headerCell: "tableHeader" },
+        {
+          field: "ProductName",
+          title: "Product Name",
+          headerCell: "tableHeader"
+        },
+        { field: "UnitPrice", title: "Unit Price", headerCell: "tableHeader" }
       ],
       items: [],
       selectedField: "selected",
@@ -73,6 +95,20 @@ export default {
     pageChangeHandler: function(event) {
       this.skippedItems = event.page.skip;
       this.singlePageItems = event.page.take;
+    },
+    hideColumn: function(e) {
+      this.columns.map(column => {
+        if (column.field === e) {
+          Vue.set(column, "hidden", true);
+        }
+      });
+    },
+    restoreColumns: function() {
+      this.columns.map(function(column) {
+        if (column.hidden) {
+          Vue.set(column, "hidden", false);
+        }
+      });
     }
   },
   mounted() {

@@ -1,7 +1,6 @@
 <template>
   <div id="app">
     <my-drop-down-list />
-    <hr />
     <my-grid></my-grid>
   </div>
 </template>
@@ -25,6 +24,5 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
 }
 </style>
