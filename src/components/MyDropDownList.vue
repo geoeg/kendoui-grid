@@ -1,8 +1,9 @@
 <template>
   <div class="my-drop-down-list">
+    <span>Filter by: </span>
     <drop-down-list
-      :data-items="sports"
-      :default-value="'Baseball'"
+      :data-items="options"
+      :default-value="''"
     ></drop-down-list>
   </div>
 </template>
@@ -15,9 +16,11 @@ export default {
   components: {
     DropDownList
   },
+  props: ["dropDownOptions"],
   data() {
     return {
-      sports: ["Baseball", "Cricket", "Field Hockey", "Football", "Volleyball"]
+      options: this.dropDownOptions.map(prop => prop.title),
+      
     };
   }
 };

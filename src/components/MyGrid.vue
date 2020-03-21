@@ -1,18 +1,16 @@
 <template>
   <div id="my-grid">
-    <span>
-      <button @click="restoreColumns" class="k-button k-primary">
-        Restore hidden columns
-      </button>
-    </span>
-    <span>
+    <div>
       Selected Item: ID: {{ selectedItem && selectedItem.ProductID }}, 
       Name: {{ selectedItem && selectedItem.ProductName }}, 
       Unit Price: {{ selectedItem && selectedItem.UnitPrice }}
-    </span>
+      <button @click="restoreColumns" class="k-button k-primary">
+        Restore hidden columns
+      </button>
+    </div>
     <grid
       :style="{ height: 'auto' }"
-      :data-items="pageItems"
+      :data-items="filteredItems"
       :columns="columns"
       :selected-field="selectedField"
       @rowclick="onRowClick"
@@ -21,6 +19,9 @@
       :take="singlePageItems"
       :total="totalItems"
       @pagechange="pageChangeHandler"
+      :filterable="true"
+      :filter="filter"
+      @filterchange="filterChange"
     >
       <template v-slot:tableHeader="{ props }">
         <span>
@@ -41,28 +42,28 @@
 <script>
 import Vue from "vue";
 import { Grid } from "@progress/kendo-vue-grid";
+import { filterBy } from "@progress/kendo-data-query";
 
 export default {
   name: "MyGrid",
   components: {
     Grid
   },
+  props: ["columns"],
   data: function() {
     return {
-      columns: [
-        { field: "ProductID", title: "Product ID", headerCell: "tableHeader" },
-        {
-          field: "ProductName",
-          title: "Product Name",
-          headerCell: "tableHeader"
-        },
-        { field: "UnitPrice", title: "Unit Price", headerCell: "tableHeader" }
-      ],
       items: [],
       selectedField: "selected",
       selectedID: 1,
       skippedItems: 0,
-      singlePageItems: 10
+      singlePageItems: 10,
+      filter: {
+        logic: "and",
+        filters: [
+          { field: "ProductName", operator: "gte", value: "" },
+          { field: "UnitPrice", operator: "gte", value: 0 }
+        ]
+      }
     };
   },
   methods: {
@@ -92,23 +93,26 @@ export default {
     onRowClick(event) {
       this.selectedID = event.dataItem.ProductID;
     },
-    pageChangeHandler: function(event) {
+    pageChangeHandler(event) {
       this.skippedItems = event.page.skip;
       this.singlePageItems = event.page.take;
     },
-    hideColumn: function(e) {
+    hideColumn(event) {
       this.columns.map(column => {
-        if (column.field === e) {
+        if (column.field === event) {
           Vue.set(column, "hidden", true);
         }
       });
     },
-    restoreColumns: function() {
-      this.columns.map(function(column) {
+    restoreColumns() {
+      this.columns.map(column => {
         if (column.hidden) {
           Vue.set(column, "hidden", false);
         }
       });
+    },
+    filterChange(event) {
+      this.filter = event.filter;
     }
   },
   mounted() {
@@ -128,6 +132,9 @@ export default {
           this.singlePageItems + this.skippedItems
         );
       }
+    },
+    filteredItems() {
+      return filterBy(this.pageItems, this.filter);
     }
   }
 };
