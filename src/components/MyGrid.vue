@@ -64,7 +64,7 @@ export default {
       filter: {
         logic: "and",
         filters: [
-          { field: "name", operator: "gte", value: "" },
+          { field: "name", operator: "contains", value: "" },
           { field: "unitPrice", operator: "gte", value: 0 }
         ]
       }

@@ -1,5 +1,11 @@
 # progress-kendoui-task
 
+The grid for representing data made with [Vue.js](https://github.com/vuejs/vue) [KendoUI](https://github.com/telerik/kendo-ui-core). It includes the following features:
++ pageable content
++ filterable columns
++ show/hide column option
++ select single row option
+
 ## Project setup
 ```
 npm install
@@ -15,7 +21,7 @@ After running the script:
 - the hot-reload vue app runs at [localhost:8080](localhost:8080) (*)
 - the fake API runs at [localhost:3000](localhost:3000) (*). In the current example requests can be send at /products (for getting all the products from the API), or /products/n for getting a single product, where 'n' is a integer that equals the id of a product.
 
-(*)The ports 8080 and 3000 are given fi they are not currently in use. If so - check the terminal for more information.
+(*)The ports 8080 and 3000 are given if they are not currently in use. If so - check the terminal for more information.
 
 ### Compiles and minifies for production
 ```
