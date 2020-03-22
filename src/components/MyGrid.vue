@@ -110,7 +110,7 @@ export default {
     }
   },
   mounted() {
-//     // this.items = this.createRandomData(50);
+    // this.items = this.createRandomData(50);
     this.items = this.dbData;
   },
   computed: {
