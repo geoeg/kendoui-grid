@@ -99,6 +99,16 @@
         "id": 20,
         "name": "Orange",
         "unitPrice": 100
+      },
+      {
+        "id": 21,
+        "name": "Apple",
+        "unitPrice": 5
+      },
+      {
+        "id": 22,
+        "name": "Pineapple",
+        "unitPrice": 500
       }
     ]
   }

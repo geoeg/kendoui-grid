@@ -37,16 +37,7 @@ export default {
     } catch(e) {
       console.error(e)
     }
-  },
-  // created() {
-  //   fetch(baseURL)
-  //     .then(response => {
-  //       return response.json();
-  //     })
-  //     .then(data => {
-  //       this.jsonServerData = data;
-  //     })
-  // },
+  }
 };
 </script>
 

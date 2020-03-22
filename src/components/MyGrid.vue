@@ -1,5 +1,5 @@
 <template>
-  <div id="my-grid">
+  <div>
     <div class="topbar">
       <div v-if="selectedID == 0">No item selected.</div>
       <div v-else>
@@ -71,19 +71,6 @@ export default {
     };
   },
   methods: {
-    // createRandomData(count) {
-    //   const productNames = [
-    //     "Chai", "Chang", "Syrup", "Apple", "Orange", "Banana", "Lemon", "Pineapple", "Tea", "Milk"
-    //   ];
-    //   const unitPrices = [12.5, 10.1, 5.3, 7, 22.53, 16.22, 20, 50, 100, 120];
-    //   return Array(count)
-    //     .fill({})
-    //     .map((_, idx) => ({
-    //       id: idx + 1,
-    //       name: productNames[Math.floor(Math.random() * productNames.length)],
-    //       unitPrice: unitPrices[Math.floor(Math.random() * unitPrices.length)]
-    //     }));
-    // },
     onRowClick(event) {
       this.selectedID = event.dataItem.id;
     },
@@ -110,7 +97,6 @@ export default {
     }
   },
   mounted() {
-    // this.items = this.createRandomData(50);
     var retrievedObject = localStorage.getItem('jsonServerData');
     this.items = JSON.parse(retrievedObject);
 },
@@ -122,7 +108,7 @@ export default {
       return this.items ? this.items.length : 0;
     },
     pageItems: {
-      get: function() {
+      get() {
         return this.items.slice(
           this.skippedItems,
           this.singlePageItems + this.skippedItems
