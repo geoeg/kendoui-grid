@@ -1,9 +1,12 @@
 <template>
   <div id="my-grid">
-    <div>
-      Selected Item: ID: {{ selectedItem && selectedItem.ProductID }}, 
-      Name: {{ selectedItem && selectedItem.ProductName }}, 
-      Unit Price: {{ selectedItem && selectedItem.UnitPrice }}
+    <div class="topbar k-button k-primary">
+      <div v-if="selectedID == 0">No item selected.</div>
+      <div v-else>
+        Selected Item: ID: {{ selectedItem && selectedItem.ProductID }}, Name:
+        {{ selectedItem && selectedItem.ProductName }}, Unit Price:
+        {{ selectedItem && selectedItem.UnitPrice }}
+      </div>
       <button @click="restoreColumns" class="k-button k-primary">
         Restore hidden columns
       </button>
@@ -22,9 +25,10 @@
       :filterable="true"
       :filter="filter"
       @filterchange="filterChange"
+      :scrollable="'none'"
     >
       <template v-slot:tableHeader="{ props }">
-        <span>
+        <span class="column-headers">
           <span>{{ props.title }}</span>
           <button
             @click="hideColumn(props.field)"
@@ -54,7 +58,7 @@ export default {
     return {
       items: [],
       selectedField: "selected",
-      selectedID: 1,
+      selectedID: 0,
       skippedItems: 0,
       singlePageItems: 10,
       filter: {
@@ -140,4 +144,11 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.topbar,
+.column-headers {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+</style>
