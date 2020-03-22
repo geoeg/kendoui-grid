@@ -71,19 +71,19 @@ export default {
     };
   },
   methods: {
-    createRandomData(count) {
-      const productNames = [
-        "Chai", "Chang", "Syrup", "Apple", "Orange", "Banana", "Lemon", "Pineapple", "Tea", "Milk"
-      ];
-      const unitPrices = [12.5, 10.1, 5.3, 7, 22.53, 16.22, 20, 50, 100, 120];
-      return Array(count)
-        .fill({})
-        .map((_, idx) => ({
-          id: idx + 1,
-          name: productNames[Math.floor(Math.random() * productNames.length)],
-          unitPrice: unitPrices[Math.floor(Math.random() * unitPrices.length)]
-        }));
-    },
+    // createRandomData(count) {
+    //   const productNames = [
+    //     "Chai", "Chang", "Syrup", "Apple", "Orange", "Banana", "Lemon", "Pineapple", "Tea", "Milk"
+    //   ];
+    //   const unitPrices = [12.5, 10.1, 5.3, 7, 22.53, 16.22, 20, 50, 100, 120];
+    //   return Array(count)
+    //     .fill({})
+    //     .map((_, idx) => ({
+    //       id: idx + 1,
+    //       name: productNames[Math.floor(Math.random() * productNames.length)],
+    //       unitPrice: unitPrices[Math.floor(Math.random() * unitPrices.length)]
+    //     }));
+    // },
     onRowClick(event) {
       this.selectedID = event.dataItem.id;
     },
@@ -111,8 +111,9 @@ export default {
   },
   mounted() {
     // this.items = this.createRandomData(50);
-    this.items = this.dbData;
-  },
+    var retrievedObject = localStorage.getItem('jsonServerData');
+    this.items = JSON.parse(retrievedObject);
+},
   computed: {
     selectedItem() {
       return this.items.find(item => item.id == this.selectedID);

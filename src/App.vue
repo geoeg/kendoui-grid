@@ -33,6 +33,7 @@ export default {
     try {
       const res = await axios.get(baseURL)
       this.jsonServerData = res.data;
+      localStorage.setItem('jsonServerData', JSON.stringify(this.jsonServerData));
     } catch(e) {
       console.error(e)
     }
