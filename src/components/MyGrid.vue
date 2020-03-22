@@ -1,6 +1,6 @@
 <template>
   <div id="my-grid">
-    <div class="topbar k-button k-primary">
+    <div class="topbar k-primary">
       <div v-if="selectedID == 0">No item selected.</div>
       <div v-else>
         Selected Item: ID: {{ selectedItem && selectedItem.ProductID }}, Name:
@@ -145,7 +145,14 @@ export default {
 </script>
 
 <style scoped>
-.topbar,
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f5f5f5;
+  color: #747474;
+}
+
 .column-headers {
   display: flex;
   align-items: center;
