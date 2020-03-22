@@ -1,11 +1,11 @@
 <template>
   <div id="my-grid">
-    <div class="topbar k-primary">
+    <div class="topbar">
       <div v-if="selectedID == 0">No item selected.</div>
       <div v-else>
-        Selected Item: ID: {{ selectedItem && selectedItem.ProductID }}, Name:
-        {{ selectedItem && selectedItem.ProductName }}, Unit Price:
-        {{ selectedItem && selectedItem.UnitPrice }}
+        Selected Item: ID: {{ selectedItem.id }}, 
+        Name: {{ selectedItem.name }},
+        Unit Price: {{ selectedItem.unitPrice }}
       </div>
       <button @click="restoreColumns" class="k-button k-primary">
         Restore hidden columns
@@ -53,7 +53,7 @@ export default {
   components: {
     Grid
   },
-  props: ["columns"],
+  props: ["columns", "dbData"],
   data: function() {
     return {
       items: [],
@@ -64,8 +64,8 @@ export default {
       filter: {
         logic: "and",
         filters: [
-          { field: "ProductName", operator: "gte", value: "" },
-          { field: "UnitPrice", operator: "gte", value: 0 }
+          { field: "name", operator: "gte", value: "" },
+          { field: "unitPrice", operator: "gte", value: 0 }
         ]
       }
     };
@@ -73,29 +73,19 @@ export default {
   methods: {
     createRandomData(count) {
       const productNames = [
-        "Chai",
-        "Chang",
-        "Syrup",
-        "Apple",
-        "Orange",
-        "Banana",
-        "Lemon",
-        "Pineapple",
-        "Tea",
-        "Milk"
+        "Chai", "Chang", "Syrup", "Apple", "Orange", "Banana", "Lemon", "Pineapple", "Tea", "Milk"
       ];
       const unitPrices = [12.5, 10.1, 5.3, 7, 22.53, 16.22, 20, 50, 100, 120];
       return Array(count)
         .fill({})
         .map((_, idx) => ({
-          ProductID: idx + 1,
-          ProductName:
-            productNames[Math.floor(Math.random() * productNames.length)],
-          UnitPrice: unitPrices[Math.floor(Math.random() * unitPrices.length)]
+          id: idx + 1,
+          name: productNames[Math.floor(Math.random() * productNames.length)],
+          unitPrice: unitPrices[Math.floor(Math.random() * unitPrices.length)]
         }));
     },
     onRowClick(event) {
-      this.selectedID = event.dataItem.ProductID;
+      this.selectedID = event.dataItem.id;
     },
     pageChangeHandler(event) {
       this.skippedItems = event.page.skip;
@@ -120,11 +110,12 @@ export default {
     }
   },
   mounted() {
-    this.items = this.createRandomData(50);
+//     // this.items = this.createRandomData(50);
+    this.items = this.dbData;
   },
   computed: {
     selectedItem() {
-      return this.items.find(item => item.ProductID == this.selectedID);
+      return this.items.find(item => item.id == this.selectedID);
     },
     totalItems() {
       return this.items ? this.items.length : 0;

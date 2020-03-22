@@ -16,6 +16,7 @@
     "@progress/kendo-vue-grid": "^0.5.0",
     "@progress/kendo-vue-intl": "^0.5.0",
     "@progress/kendo-vue-popup": "^0.5.0",
+    "axios": "^0.19.2",
     "core-js": "^3.6.4",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3"
