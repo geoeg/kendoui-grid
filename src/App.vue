@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <!-- <my-drop-down-list :dropDownOptions="columns" /> -->
-    <my-grid :columns="columns" :dbData="jsonServerData"></my-grid>
+    <my-grid :columns="columns"></my-grid>
   </div>
 </template>
 
@@ -9,9 +9,8 @@
 import "@progress/kendo-theme-default/dist/all.css";
 // import MyDropDownList from "./components/MyDropDownList.vue";
 import MyGrid from "./components/MyGrid.vue";
-import axios from 'axios';
 
-const baseURL = "http://localhost:3000/products"
+// const baseURL = "http://localhost:3000/products"
 
 export default {
   name: "App",
@@ -26,17 +25,8 @@ export default {
         { field: "name", title: "Product Name", headerCell: "tableHeader" },
         { field: "unitPrice", title: "Unit Price", headerCell: "tableHeader", filter: "numeric" }
       ],
-      jsonServerData: []
+      // jsonServerData: []
     };
-  },
-  async created() {
-    try {
-      const res = await axios.get(baseURL)
-      this.jsonServerData = res.data;
-      localStorage.setItem('jsonServerData', JSON.stringify(this.jsonServerData));
-    } catch(e) {
-      console.error(e)
-    }
   }
 };
 </script>

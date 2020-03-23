@@ -13,7 +13,7 @@
     </div>
     <grid
       :style="{ height: 'auto' }"
-      :data-items="filteredItems"
+      :data-items="pageItems"
       :columns="columns"
       :selected-field="selectedField"
       @rowclick="onRowClick"
@@ -96,9 +96,119 @@ export default {
       this.filter = event.filter;
     }
   },
-  mounted() {
-    var retrievedObject = localStorage.getItem('jsonServerData');
-    this.items = JSON.parse(retrievedObject);
+  mounted() { 
+    this.items = [
+      {
+        "id": 1,
+        "name": "Apple",
+        "unitPrice": 5
+      },
+      {
+        "id": 2,
+        "name": "Orange",
+        "unitPrice": 10
+      },
+      {
+        "id": 3,
+        "name": "Lemon",
+        "unitPrice": 15
+      },
+      {
+        "id": 4,
+        "name": "Orange",
+        "unitPrice": 10
+      },
+      {
+        "id": 5,
+        "name": "Lemon",
+        "unitPrice": 15
+      },
+      {
+        "id": 6,
+        "name": "Apple",
+        "unitPrice": 5
+      },
+      {
+        "id": 7,
+        "name": "Lemon",
+        "unitPrice": 15
+      },
+      {
+        "id": 8,
+        "name": "Orange",
+        "unitPrice": 10
+      },
+      {
+        "id": 9,
+        "name": "Apple",
+        "unitPrice": 5
+      },
+      {
+        "id": 10,
+        "name": "Orange",
+        "unitPrice": 100
+      },
+      {
+        "id": 11,
+        "name": "Apple",
+        "unitPrice": 50
+      },
+      {
+        "id": 12,
+        "name": "Orange",
+        "unitPrice": 100
+      },
+      {
+        "id": 13,
+        "name": "Lemon",
+        "unitPrice": 150
+      },
+      {
+        "id": 14,
+        "name": "Orange",
+        "unitPrice": 100
+      },
+      {
+        "id": 15,
+        "name": "Lemon",
+        "unitPrice": 150
+      },
+      {
+        "id": 16,
+        "name": "Apple",
+        "unitPrice": 50
+      },
+      {
+        "id": 17,
+        "name": "Orange",
+        "unitPrice": 100
+      },
+      {
+        "id": 18,
+        "name": "Lemon",
+        "unitPrice": 150
+      },
+      {
+        "id": 19,
+        "name": "Apple",
+        "unitPrice": 50
+      },
+      {
+        "id": 20,
+        "name": "Orange",
+        "unitPrice": 100
+      },
+      {
+        "id": 21,
+        "name": "Apple",
+        "unitPrice": 5
+      },
+      {
+        "id": 22,
+        "name": "Pineapple",
+        "unitPrice": 500
+      }
+    ]   
 },
   computed: {
     selectedItem() {
@@ -109,14 +219,17 @@ export default {
     },
     pageItems: {
       get() {
-        return this.items.slice(
+        let itemsN = this.filteredItems.slice(
           this.skippedItems,
           this.singlePageItems + this.skippedItems
         );
+        return itemsN
       }
     },
-    filteredItems() {
-      return filterBy(this.pageItems, this.filter);
+    filteredItems: {
+      get() {
+        return filterBy(this.items, this.filter);
+      }
     }
   }
 };
