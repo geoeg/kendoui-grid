@@ -1,17 +1,15 @@
 <template>
-  <div class="topbar">
     <drop-down-list
-      :data-items="uniqueItems"
+      :data-items="uniqueValues"
       :default-value="''"
       @change="onChange"
       :filterable="false"
     ></drop-down-list>
-  </div>
 </template>
 
 <script>
 import { DropDownList } from "@progress/kendo-vue-dropdowns";
-// import { eventBus } from "../main.js";
+import { eventBus } from "../main.js";
 
 export default {
   name: "MyDropDownList",
@@ -20,33 +18,31 @@ export default {
   },
   data() {
     return {
-      items: []
+      // items: []
     };
   },
-  mounted() {
-    var retrievedObject = localStorage.getItem("jsonServerData");
-    this.items = JSON.parse(retrievedObject);
-  },
+  props: ["dropDownListData", "dropDownType"],
   computed: {
-    uniqueItems() {
-      return Array.from([...new Set(this.items.map(prop => prop.name))]);
+    uniqueValues() {
+      let itemsList = Array.from([...new Set(this.dropDownListData.map(prop => prop[this.dropDownType]))]);
+      itemsList.unshift("");
+      return itemsList;
     }
   },
-  // methods: {
-  //   onChange(event) {
-  //     console.log("MyDropDownList/onChange: " + event.target.value);
-  //     eventBus.$emit("nameFilterChanged", event.target.value);
-  //   }
-  // }
+  methods: {
+    onChange(event) {
+      eventBus.$emit("filterWasChanged", ([event.target.value, this.dropDownType]));
+    }
+  }
 };
 </script>
 
 <style scoped>
-.topbar {
+/* .topbar {
   display: flex;
   align-items: center;
   justify-content: center;
   background: #f5f5f5;
   color: #747474;
-}
+} */
 </style>

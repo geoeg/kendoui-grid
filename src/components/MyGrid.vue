@@ -1,5 +1,16 @@
 <template>
-  <div>
+  <div class="my-grid">
+    <!-- <my-drop-down-list 
+      :dropDownListData="items" 
+      :dropDownType="columns[1].field"
+    ></my-drop-down-list>
+    <my-drop-down-list 
+      :dropDownListData="items" 
+      :dropDownType="columns[2].field"
+    ></my-drop-down-list>
+    <button @click="restoreDropDownFilters" class="k-button k-primary">
+      Reset
+    </button> -->
     <div class="topbar">
       <div v-if="selectedID == 0">No item selected.</div>
       <div v-else>
@@ -30,6 +41,12 @@
       <template v-slot:tableHeader="{ props }">
         <span class="column-headers">
           <span>{{ props.title }}</span>
+          <span v-if="columns.filter(obj => obj.title == props.title)[0].filterable !== false">
+            <my-drop-down-list
+              :dropDownListData="items" 
+              :dropDownType="props.field"
+            ></my-drop-down-list>
+          </span>
           <button
             @click="hideColumn(props.field)"
             class="k-button k-primary"
@@ -47,16 +64,23 @@
 import Vue from "vue";
 import { Grid } from "@progress/kendo-vue-grid";
 import { filterBy } from "@progress/kendo-data-query";
+import MyDropDownList from "./MyDropDownList.vue";
+import { eventBus } from "../main.js";
 
 export default {
   name: "MyGrid",
   components: {
-    Grid
+    Grid,
+    MyDropDownList
   },
-  props: ["columns", "dbData"],
   data: function() {
     return {
       items: [],
+      columns: [
+        { field: "id",  title: "Product ID", headerCell: "tableHeader", filterable: false },
+        { field: "name", title: "Product Name", headerCell: "tableHeader" },
+        { field: "unitPrice", title: "Unit Price", headerCell: "tableHeader",filter: "numeric" }
+      ],
       selectedField: "selected",
       selectedID: 0,
       skippedItems: 0,
@@ -67,7 +91,8 @@ export default {
           { field: "name", operator: "contains", value: "" },
           { field: "unitPrice", operator: "gte", value: 0 }
         ]
-      }
+      },
+      dropDownFilter: ""
     };
   },
   methods: {
@@ -94,122 +119,129 @@ export default {
     },
     filterChange(event) {
       this.filter = event.filter;
+    },
+    dropDownFilterChange() {
+      eventBus.$on("filterWasChanged", value => {
+        this.dropDownFilter = value;      
+        this.filter.filters.filter(obj => obj.field == value[1])[0].value = value[0];
+      });
     }
-  },
-  mounted() { 
+},
+  mounted() {
     this.items = [
       {
-        "id": 1,
-        "name": "Apple",
-        "unitPrice": 5
+        id: 1,
+        name: "Apple",
+        unitPrice: 5
       },
       {
-        "id": 2,
-        "name": "Orange",
-        "unitPrice": 10
+        id: 2,
+        name: "Orange",
+        unitPrice: 10
       },
       {
-        "id": 3,
-        "name": "Lemon",
-        "unitPrice": 15
+        id: 3,
+        name: "Lemon",
+        unitPrice: 15
       },
       {
-        "id": 4,
-        "name": "Orange",
-        "unitPrice": 10
+        id: 4,
+        name: "Orange",
+        unitPrice: 10
       },
       {
-        "id": 5,
-        "name": "Lemon",
-        "unitPrice": 15
+        id: 5,
+        name: "Lemon",
+        unitPrice: 15
       },
       {
-        "id": 6,
-        "name": "Apple",
-        "unitPrice": 5
+        id: 6,
+        name: "Apple",
+        unitPrice: 5
       },
       {
-        "id": 7,
-        "name": "Lemon",
-        "unitPrice": 15
+        id: 7,
+        name: "Lemon",
+        unitPrice: 15
       },
       {
-        "id": 8,
-        "name": "Orange",
-        "unitPrice": 10
+        id: 8,
+        name: "Orange",
+        unitPrice: 10
       },
       {
-        "id": 9,
-        "name": "Apple",
-        "unitPrice": 5
+        id: 9,
+        name: "Apple",
+        unitPrice: 5
       },
       {
-        "id": 10,
-        "name": "Orange",
-        "unitPrice": 100
+        id: 10,
+        name: "Orange",
+        unitPrice: 100
       },
       {
-        "id": 11,
-        "name": "Apple",
-        "unitPrice": 50
+        id: 11,
+        name: "Apple",
+        unitPrice: 50
       },
       {
-        "id": 12,
-        "name": "Orange",
-        "unitPrice": 100
+        id: 12,
+        name: "Orange",
+        unitPrice: 100
       },
       {
-        "id": 13,
-        "name": "Lemon",
-        "unitPrice": 150
+        id: 13,
+        name: "Lemon",
+        unitPrice: 150
       },
       {
-        "id": 14,
-        "name": "Orange",
-        "unitPrice": 100
+        id: 14,
+        name: "Orange",
+        unitPrice: 100
       },
       {
-        "id": 15,
-        "name": "Lemon",
-        "unitPrice": 150
+        id: 15,
+        name: "Lemon",
+        unitPrice: 150
       },
       {
-        "id": 16,
-        "name": "Apple",
-        "unitPrice": 50
+        id: 16,
+        name: "Apple",
+        unitPrice: 50
       },
       {
-        "id": 17,
-        "name": "Orange",
-        "unitPrice": 100
+        id: 17,
+        name: "Orange",
+        unitPrice: 100
       },
       {
-        "id": 18,
-        "name": "Lemon",
-        "unitPrice": 150
+        id: 18,
+        name: "Lemon",
+        unitPrice: 150
       },
       {
-        "id": 19,
-        "name": "Apple",
-        "unitPrice": 50
+        id: 19,
+        name: "Apple",
+        unitPrice: 50
       },
       {
-        "id": 20,
-        "name": "Orange",
-        "unitPrice": 100
+        id: 20,
+        name: "Orange",
+        unitPrice: 100
       },
       {
-        "id": 21,
-        "name": "Apple",
-        "unitPrice": 5
+        id: 21,
+        name: "Apple",
+        unitPrice: 5
       },
       {
-        "id": 22,
-        "name": "Pineapple",
-        "unitPrice": 500
+        id: 22,
+        name: "Pineapple",
+        unitPrice: 500
       }
-    ]   
-},
+    ];
+    this.dropDownFilterChange();
+  },
   computed: {
     selectedItem() {
       return this.items.find(item => item.id == this.selectedID);
@@ -223,25 +255,41 @@ export default {
           this.skippedItems,
           this.singlePageItems + this.skippedItems
         );
-        return itemsN
+        return itemsN;
       }
     },
     filteredItems: {
       get() {
         return filterBy(this.items, this.filter);
       }
-    }
-  }
+    },
+    // dropDownFilterChange() {
+    //   console.log("myGrid-ddfChange()");
+    //   eventBus.$on("filterWasChanged", value => {
+    //     this.dropDownFilter = value;      
+    //     this.filter.filters.filter(obj => obj.field == "name")[0].value = value;
+    //   });
+    //   return "drop-down filter applied."
+    // }
+  },
+  // watch: {
+  //   dropDownFilter: function (value) {
+  //     console.log("watcher executed");
+  //     this.filter.filters.filter(obj => obj.field == "name")[0].value = value;
+  //   }
+  // }
 };
 </script>
 
 <style scoped>
+.my-grid {
+  color:#747474;
+}
+
 .topbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #f5f5f5;
-  color: #747474;
 }
 
 .column-headers {

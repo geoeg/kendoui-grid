@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <!-- <my-drop-down-list :dropDownOptions="columns" /> -->
-    <my-grid :columns="columns"></my-grid>
+    <!-- <my-drop-down-list :gridItems="columns" /> -->
+    <my-grid></my-grid>
   </div>
 </template>
 
@@ -10,7 +10,7 @@ import "@progress/kendo-theme-default/dist/all.css";
 // import MyDropDownList from "./components/MyDropDownList.vue";
 import MyGrid from "./components/MyGrid.vue";
 
-// const baseURL = "http://localhost:3000/products"
+// const baseURL = "http://localhost:3000/products";
 
 export default {
   name: "App",
@@ -20,11 +20,11 @@ export default {
   },
   data: function() {
     return {
-      columns: [
-        { field: "id", title: "Product ID", headerCell: "tableHeader", filterable: false },
-        { field: "name", title: "Product Name", headerCell: "tableHeader" },
-        { field: "unitPrice", title: "Unit Price", headerCell: "tableHeader", filter: "numeric" }
-      ],
+      // columns: [
+      //   { field: "id", title: "Product ID", headerCell: "tableHeader", filterable: false },
+      //   { field: "name", title: "Product Name", headerCell: "tableHeader" },
+      //   { field: "unitPrice", title: "Unit Price", headerCell: "tableHeader", filter: "numeric" }
+      // ],
       // jsonServerData: []
     };
   }

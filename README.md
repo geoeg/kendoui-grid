@@ -16,7 +16,7 @@ npm install
 npm run dev
 ```
 
-- the hot-reload vue app runs at localhost:8080 (*)
+- the hot-reload vue app runs at localhost:8080
 
 ### Compiles and minifies for production
 ```
