@@ -37,12 +37,4 @@ export default {
 };
 </script>
 
-<style scoped>
-/* .topbar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #f5f5f5;
-  color: #747474;
-} */
-</style>
+<style scoped></style>

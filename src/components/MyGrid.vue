@@ -1,16 +1,5 @@
 <template>
   <div class="my-grid">
-    <!-- <my-drop-down-list 
-      :dropDownListData="items" 
-      :dropDownType="columns[1].field"
-    ></my-drop-down-list>
-    <my-drop-down-list 
-      :dropDownListData="items" 
-      :dropDownType="columns[2].field"
-    ></my-drop-down-list>
-    <button @click="restoreDropDownFilters" class="k-button k-primary">
-      Reset
-    </button> -->
     <div class="topbar">
       <div v-if="selectedID == 0">No item selected.</div>
       <div v-else>
@@ -33,7 +22,7 @@
       :take="singlePageItems"
       :total="totalItems"
       @pagechange="pageChangeHandler"
-      :filterable="true"
+      :filterable="false"
       :filter="filter"
       @filterchange="filterChange"
       :scrollable="'none'"
@@ -262,22 +251,8 @@ export default {
       get() {
         return filterBy(this.items, this.filter);
       }
-    },
-    // dropDownFilterChange() {
-    //   console.log("myGrid-ddfChange()");
-    //   eventBus.$on("filterWasChanged", value => {
-    //     this.dropDownFilter = value;      
-    //     this.filter.filters.filter(obj => obj.field == "name")[0].value = value;
-    //   });
-    //   return "drop-down filter applied."
-    // }
+    }
   },
-  // watch: {
-  //   dropDownFilter: function (value) {
-  //     console.log("watcher executed");
-  //     this.filter.filters.filter(obj => obj.field == "name")[0].value = value;
-  //   }
-  // }
 };
 </script>
 
