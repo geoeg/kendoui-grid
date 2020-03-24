@@ -53,10 +53,14 @@ export default {
   components: {
     Grid
   },
-  props: ["columns", "dbData"],
   data: function() {
     return {
       items: [],
+      columns: [
+        { field: "id", title: "Product ID", headerCell: "tableHeader", filterable: false },
+        { field: "name", title: "Product Name", headerCell: "tableHeader" },
+        { field: "unitPrice", title: "Unit Price", headerCell: "tableHeader", filter: "numeric" }
+      ],
       selectedField: "selected",
       selectedID: 0,
       skippedItems: 0,
